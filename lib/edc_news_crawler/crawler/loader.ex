@@ -16,6 +16,7 @@ defmodule EdcNewsCrawler.Crawler.Loader do
   end
 
   def url do
+    # TODO check a way to properly define env variable
     "https://newsapi.org/v2/everything?q=Ukraine&sortBy=publishedAt&apiKey=#{System.get_env("NEWS_API_TOKEN")}"
   end
 end

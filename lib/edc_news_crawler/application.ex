@@ -7,6 +7,8 @@ defmodule EdcNewsCrawler.Application do
 
   @impl true
   def start(_type, _args) do
+    :ets.new(:news_table, [:named_table, :public])
+
     children = [
       # Start the Ecto repository
       EdcNewsCrawler.Repo,
@@ -17,7 +19,6 @@ defmodule EdcNewsCrawler.Application do
       # Start the Endpoint (http/https)
       EdcNewsCrawlerWeb.Endpoint,
       EdcNewsCrawler.Crawler.Scheduler,
-      {EdcNewsCrawler.Crawler.Cache, name: EdcNewsCrawler.CacheNewsApi},
       # Start a worker by calling: EdcNewsCrawler.Worker.start_link(arg)
       # {EdcNewsCrawler.Worker, arg}
     ]

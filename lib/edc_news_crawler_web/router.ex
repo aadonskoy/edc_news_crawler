@@ -20,6 +20,11 @@ defmodule EdcNewsCrawlerWeb.Router do
     get "/", PageController, :index
   end
 
+  scope "/api", EdcNewsCrawlerWeb do
+    pipe_through(:api)
+    resources("/news", NewsController, except: [:new, :edit])
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", EdcNewsCrawlerWeb do
   #   pipe_through :api

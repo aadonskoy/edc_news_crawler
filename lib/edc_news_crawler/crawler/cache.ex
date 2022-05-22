@@ -24,10 +24,15 @@ defmodule EdcNewsCrawler.Crawler.Cache do
     EtsAdapter.get_all(:news_table)
   end
 
-  def store do
-    case Loader.load_news() do
+  def get_category(category) do
+    EtsAdapter.get_category(:news_table, category)
+  end
+
+  def store(category) do
+    case Loader.load_news(category) do
       {:ok, articles} ->
-        :ok = EtsAdapter.store_batch(:news_table, articles)
+        :ok = EtsAdapter.store_batch(:news_table, articles, category)
+        :ok
       {:error, error} ->
         {:error, error}
     end

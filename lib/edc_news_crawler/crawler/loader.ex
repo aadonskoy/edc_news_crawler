@@ -1,8 +1,8 @@
 defmodule EdcNewsCrawler.Crawler.Loader do
   require Logger
 
-  def load_news do
-    case HTTPoison.get(url()) do
+  def load_news(category) do
+    case HTTPoison.get(url(category)) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         %{"articles" => articles} = Jason.decode!(body)
         {:ok, articles}
@@ -15,9 +15,9 @@ defmodule EdcNewsCrawler.Crawler.Loader do
     end
   end
 
-  def url do
+  def url(category) do
     # TODO check a way to properly define env variable
     loader_config = Application.get_env(:edc_news_crawler, EdcNewsCrawler.Crawler.Loader)
-    "#{loader_config[:url]}/everything?q=Ukraine&sortBy=publishedAt&apiKey=#{loader_config[:token]}"
+    "#{loader_config[:url]}/everything?q=#{category}&sortBy=publishedAt&apiKey=#{loader_config[:token]}"
   end
 end

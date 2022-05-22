@@ -49,7 +49,7 @@ config :phoenix, :json_library, Jason
 
 config :edc_news_crawler, EdcNewsCrawler.Crawler.Scheduler,
   jobs: [
-    {"*/15 * * * *", {EdcNewsCrawler.Crawler.Cache, :store, []}}
+    {"*/15 * * * *", {EdcNewsCrawler.Crawler.Cache, :store, ["Ukraine"]}}
   ]
 
   news_api_token = System.get_env("NEWS_API_TOKEN") || ""

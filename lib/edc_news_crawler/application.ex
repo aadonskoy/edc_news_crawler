@@ -18,6 +18,7 @@ defmodule EdcNewsCrawler.Application do
       {Phoenix.PubSub, name: EdcNewsCrawler.PubSub},
       # Start the Endpoint (http/https)
       EdcNewsCrawlerWeb.Endpoint,
+      EdcNewsCrawler.CategoriesList,
       EdcNewsCrawler.Crawler.Scheduler,
       # Start a worker by calling: EdcNewsCrawler.Worker.start_link(arg)
       # {EdcNewsCrawler.Worker, arg}

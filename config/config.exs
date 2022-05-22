@@ -52,6 +52,13 @@ config :edc_news_crawler, EdcNewsCrawler.Crawler.Scheduler,
     {"*/15 * * * *", {EdcNewsCrawler.Crawler.Cache, :store, []}}
   ]
 
+  news_api_token = System.get_env("NEWS_API_TOKEN") || ""
+  news_api_url = System.get_env("NEWS_API_URL") || "https://newsapi.org/v2"
+
+  config :edc_news_crawler, EdcNewsCrawler.Crawler.Loader,
+    token: news_api_token,
+    url: news_api_url
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

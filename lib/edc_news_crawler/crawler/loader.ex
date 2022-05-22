@@ -17,6 +17,7 @@ defmodule EdcNewsCrawler.Crawler.Loader do
 
   def url do
     # TODO check a way to properly define env variable
-    "https://newsapi.org/v2/everything?q=Ukraine&sortBy=publishedAt&apiKey=#{System.get_env("NEWS_API_TOKEN")}"
+    loader_config = Application.get_env(:edc_news_crawler, EdcNewsCrawler.Crawler.Loader)
+    "#{loader_config[:url]}/everything?q=Ukraine&sortBy=publishedAt&apiKey=#{loader_config[:token]}"
   end
 end

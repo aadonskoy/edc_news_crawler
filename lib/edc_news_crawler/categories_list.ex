@@ -2,12 +2,12 @@ defmodule EdcNewsCrawler.CategoriesList do
   use GenServer
 
   @impl true
-  def init(_args) do
-    {:ok, %{list: ["Ukraine", "Apple"]}}
+  def init(args) do
+    {:ok, %{list: args}}
   end
 
   def start_link(opts) do
-    GenServer.start_link(__MODULE__, :ok, opts)
+    GenServer.start_link(__MODULE__, opts, name: EdcNewsCrawler.CategoriesList)
   end
 
   @impl true

@@ -14,4 +14,9 @@ defmodule EdcNewsCrawler.CategoriesList do
   def handle_call(:next, _from, %{list: [current | rest]}) do
     {:reply, current, %{list: rest ++ [current]}}
   end
+
+  @impl true
+  def handle_call(:list, _from, %{list: list} = state) do
+    {:reply, list, state}
+  end
 end

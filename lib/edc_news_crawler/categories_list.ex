@@ -3,7 +3,7 @@ defmodule EdcNewsCrawler.CategoriesList do
 
   @impl true
   def init(args) do
-    {:ok, %{list: args}}
+    {:ok, %{newsapi: args, newsdata: args}}
   end
 
   def start_link(opts) do
@@ -11,12 +11,12 @@ defmodule EdcNewsCrawler.CategoriesList do
   end
 
   @impl true
-  def handle_call(:next, _from, %{list: [current | rest]}) do
-    {:reply, current, %{list: rest ++ [current]}}
+  def handle_call(:next_newsapi, _from, %{newsapi: [current | rest]} = state) do
+    {:reply, current, %{state | newsapi: rest ++ [current]}}
   end
 
   @impl true
-  def handle_call(:list, _from, %{list: list} = state) do
-    {:reply, list, state}
+  def handle_call(:next_newsdata, _from, %{newsdata: [current | rest]} = state) do
+    {:reply, current, %{state | newsdata: rest ++ [current]}}
   end
 end

@@ -52,8 +52,15 @@ config :edc_news_crawler, EdcNewsCrawler.Crawler.Scheduler,
     {
       "*/15 * * * *",
       fn ->
-        category = GenServer.call(EdcNewsCrawler.CategoriesList, :next)
-        EdcNewsCrawler.Crawler.Cache.store(category)
+        category = GenServer.call(EdcNewsCrawler.CategoriesList, :next_newsapi)
+        EdcNewsCrawler.Crawler.Cache.store(:newsapi, category)
+      end
+    },
+    {
+      "*/8 * * * *",
+      fn ->
+        category = GenServer.call(EdcNewsCrawler.CategoriesList, :next_newsdata)
+        EdcNewsCrawler.Crawler.Cache.store(:newsdata, category)
       end
     }
   ]
@@ -61,9 +68,14 @@ config :edc_news_crawler, EdcNewsCrawler.Crawler.Scheduler,
   news_api_token = System.get_env("NEWS_API_TOKEN") || ""
   news_api_url = System.get_env("NEWS_API_URL") || "https://newsapi.org/v2"
 
+  newsdata_api_token = System.get_env("NEWSDATA_API_TOKEN") || ""
+  newsdata_api_url = System.get_env("NEWSDATA_API_URL") || "https://newsdata.io/api/1/news"
+
   config :edc_news_crawler, EdcNewsCrawler.Crawler.Loader,
     token: news_api_token,
-    url: news_api_url
+    url: news_api_url,
+    newsdata_token: newsdata_api_token,
+    newsdata_url: newsdata_api_url
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

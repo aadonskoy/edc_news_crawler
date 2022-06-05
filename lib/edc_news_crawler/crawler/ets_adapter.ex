@@ -2,8 +2,10 @@ defmodule EdcNewsCrawler.Crawler.EtsAdapter do
   def store_batch(table, data, category) do
     # TODO add index and reset on each store
     data
-    |> Enum.each(fn item ->:ets.insert(table, {item["url"], category, Jason.encode!(item)}) end)
-
+    |> Enum.each(fn item ->
+      item = normalize_item(item)
+      :ets.insert(table, {item["url"], category, Jason.encode!(item)})
+    end)
     :ok
   end
 
@@ -22,4 +24,7 @@ defmodule EdcNewsCrawler.Crawler.EtsAdapter do
     |> Enum.map(fn {_key, _category, value} -> Jason.decode!(value) end)
     |> Enum.sort_by(fn item -> item["publishedAt"] end)
   end
+
+  defp normalize_item(%{"link" => url} = data), do: Map.put(data, "url", url)
+  defp normalize_item(data), do: data
 end
